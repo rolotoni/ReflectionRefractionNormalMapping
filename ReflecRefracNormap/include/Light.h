@@ -12,7 +12,7 @@ class Light
     ~Light();
     Light(SFW::Vec3);//add more to this constructor later
     //light position
-	SFW::Vec3 Pos_;
+  SFW::Vec3 Pos_;
   
     //to add
     //light type i.e. spot,directional etc.

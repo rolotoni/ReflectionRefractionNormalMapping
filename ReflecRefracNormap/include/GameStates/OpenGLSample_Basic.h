@@ -1,9 +1,9 @@
 // ---------------------------------------------------------------------------
-// Project Name		:	Simple Framework
-// File Name		:	OpenGLSample_Basic.h
-// Author			:	Sun Tjen Fam
-// Creation Date	:	2010/01/13
-// Purpose			:	header file for a simple OpenGL sample
+// Project Name   : Simple Framework
+// File Name    : OpenGLSample_Basic.h
+// Author     : Sun Tjen Fam
+// Creation Date  : 2010/01/13
+// Purpose      : header file for a simple OpenGL sample
 // ---------------------------------------------------------------------------
 
 #ifndef OGL_SAMPLE_BASIC_H

@@ -1,9 +1,9 @@
 // ---------------------------------------------------------------------------
-// Project Name		:	Simple Framework
-// File Name		:	SFW_Geometry.h
-// Author			:	Sun Tjen Fam
-// Creation Date	:	2010/01/13
-// Purpose			:	header file for the geometry library
+// Project Name   : Simple Framework
+// File Name    : SFW_Geometry.h
+// Author     : Sun Tjen Fam
+// Creation Date  : 2010/01/13
+// Purpose      : header file for the geometry library
 // ---------------------------------------------------------------------------
 
 #ifndef SFW_GEOMETRY_H
@@ -31,39 +31,39 @@ typedef Vec3 Vec;
 
 enum
 {
-	CP_FRONT = 0, 
-	CP_BEHIND, 
-	CP_STRADDLE, 
-	CP_COPLANAR, 
+  CP_FRONT = 0, 
+  CP_BEHIND, 
+  CP_STRADDLE, 
+  CP_COPLANAR, 
 };
 
 // ---------------------------------------------------------------------------
 
 struct Segment
 {
-	// start and end of the line segment
-	union
-	{
-		struct
-		{
-			Vec start, end;
-		};
-		struct
-		{
-			Vec v[2];			
-		};
-	};
+  // start and end of the line segment
+  union
+  {
+    struct
+    {
+      Vec start, end;
+    };
+    struct
+    {
+      Vec v[2];     
+    };
+  };
 
-		Segment(const Vec& s, const Vec& e)
-		{
-			start = s;
-			end   = e;
-		}
+    Segment(const Vec& s, const Vec& e)
+    {
+      start = s;
+      end   = e;
+    }
 
-	f32	Length	() const	
-	{	
-		return (end - start).Length();
-	}
+  f32 Length  () const  
+  { 
+    return (end - start).Length();
+  }
 };
 
 // ---------------------------------------------------------------------------
@@ -71,20 +71,20 @@ struct Segment
 // Line structure
 struct Line
 {
-	Vec	start;	// line starting position
-	Vec	dir;	// line direction (might not be normalized)
-		
-		Line	(const Vec& s, const Vec& d)
-		{
-			start = s;
-			dir   = d;
-		}
-		
-		Line	(const Segment& seg)
-		{
-			start = seg.start;
-			dir   = seg.end - seg.start;
-		}
+  Vec start;  // line starting position
+  Vec dir;  // line direction (might not be normalized)
+    
+    Line  (const Vec& s, const Vec& d)
+    {
+      start = s;
+      dir   = d;
+    }
+    
+    Line  (const Segment& seg)
+    {
+      start = seg.start;
+      dir   = seg.end - seg.start;
+    }
 };
 
 // ---------------------------------------------------------------------------
@@ -92,167 +92,167 @@ struct Line
 // Ray structure. Practically the same as line
 struct Ray
 {
-	Vec	start;	// ray starting point
-	Vec	dir;	// ray direction (might not be normalized)
-		
-		Ray	(const Vec& s, const Vec& d)
-		{
-			start = s;
-			dir   = d;
-		}
-		
-		Ray	(const Segment& seg)
-		{
-			start = seg.start;
-			dir   = seg.end - seg.start;
-		}
+  Vec start;  // ray starting point
+  Vec dir;  // ray direction (might not be normalized)
+    
+    Ray (const Vec& s, const Vec& d)
+    {
+      start = s;
+      dir   = d;
+    }
+    
+    Ray (const Segment& seg)
+    {
+      start = seg.start;
+      dir   = seg.end - seg.start;
+    }
 };
 
 // ---------------------------------------------------------------------------
 
 struct Plane
 {
-	union
-	{
-		struct
-		{
-			Vec	n;
-		};
-		struct
-		{
-			f32	a, b, c;
-		};
-	};
-	f32		d;
+  union
+  {
+    struct
+    {
+      Vec n;
+    };
+    struct
+    {
+      f32 a, b, c;
+    };
+  };
+  f32   d;
 
-			Plane	()
-			{
-				n = Vec(0.0f);
-				d = 0.0f;
-			}
+      Plane ()
+      {
+        n = Vec(0.0f);
+        d = 0.0f;
+      }
 
-			// construct a plane from a normal and -distance of origin from the plane (the 'd')
-			Plane	(const Vec& nn, f32 dd)
-			{
-				n = nn;
-				d = dd;
-			}
+      // construct a plane from a normal and -distance of origin from the plane (the 'd')
+      Plane (const Vec& nn, f32 dd)
+      {
+        n = nn;
+        d = dd;
+      }
 
-			// construct with the equations parameters
-			Plane	(f32 aa, f32 bb, f32 cc, f32 dd)
-			{
-				a = aa;
-				b = bb;
-				c = cc;
-				d = dd;
-			}
+      // construct with the equations parameters
+      Plane (f32 aa, f32 bb, f32 cc, f32 dd)
+      {
+        a = aa;
+        b = bb;
+        c = cc;
+        d = dd;
+      }
 
-			// construct from three points
-			Plane	(const Vec& v0, const Vec& v1, const Vec& v2)
-			{
-				n = (v1 - v0).Cross(v2 - v0);
-				d = -n.Dot(v0);
-			}
+      // construct from three points
+      Plane (const Vec& v0, const Vec& v1, const Vec& v2)
+      {
+        n = (v1 - v0).Cross(v2 - v0);
+        d = -n.Dot(v0);
+      }
 
-			// construct from array of three points
-			Plane	(const Vec* pV)
-			{
-				n = (pV[1] - pV[0]).Cross(pV[2] - pV[0]);
-				d = -n.Dot(pV[0]);
-			}
-	
-	Plane	Normalize()		{	f32 len = n.Length(); return Plane(n / len, d / len);	}
-	Plane&	NormalizeThis()	{	return (*this) = this->Normalize();						}
+      // construct from array of three points
+      Plane (const Vec* pV)
+      {
+        n = (pV[1] - pV[0]).Cross(pV[2] - pV[0]);
+        d = -n.Dot(pV[0]);
+      }
+  
+  Plane Normalize()   { f32 len = n.Length(); return Plane(n / len, d / len); }
+  Plane&  NormalizeThis() { return (*this) = this->Normalize();           }
 };
 
 // ---------------------------------------------------------------------------
 
 struct Triangle
 {
-	union
-	{
-		struct
-		{
-			Vec v0, v1, v2;
-		};
-		struct
-		{
-			Vec v[3];
-		};
-	};
+  union
+  {
+    struct
+    {
+      Vec v0, v1, v2;
+    };
+    struct
+    {
+      Vec v[3];
+    };
+  };
 
-		// construct with the triangle from 3 points
-		Triangle	(const Vec& u0, const Vec& u1, const Vec& u2)
-		{
-			v0 = u0;
-			v1 = u1;
-			v2 = u2;
-		}
+    // construct with the triangle from 3 points
+    Triangle  (const Vec& u0, const Vec& u1, const Vec& u2)
+    {
+      v0 = u0;
+      v1 = u1;
+      v2 = u2;
+    }
 
-	Vec	Normal() const
-	{
-		return (v1 - v0).Cross(v2 - v0).Normalize();
-	}
+  Vec Normal() const
+  {
+    return (v1 - v0).Cross(v2 - v0).Normalize();
+  }
 };
 
 // ---------------------------------------------------------------------------
 
 struct Sphere
 {
-	Vec				center;	// center of the sphere
-	f32				radius;	// sphere radius
+  Vec       center; // center of the sphere
+  f32       radius; // sphere radius
 
-					// construct from given center and radius
-					Sphere	(const Vec& c, f32 r)
-					{
-						center = c;
-						radius = r;
-					}
-					
-					// construct from a set of points
-					Sphere	(const Vec* pPos, u32 posNum)
-					{
-						*this = Create(pPos, posNum);
-					}
+          // construct from given center and radius
+          Sphere  (const Vec& c, f32 r)
+          {
+            center = c;
+            radius = r;
+          }
+          
+          // construct from a set of points
+          Sphere  (const Vec* pPos, u32 posNum)
+          {
+            *this = Create(pPos, posNum);
+          }
 
-	// create bounding sphere
-	static Sphere	Create				(const Vec* pPos, u32 posNum);
-	static Sphere	Create_AABB			(const Vec* pPos, u32 posNum);
-	static Sphere	Create_Iterative	(const Vec* pPos, u32 posNum);
-	static Sphere	Create_Welz			(const Vec* pPos, u32 posNum);
+  // create bounding sphere
+  static Sphere Create        (const Vec* pPos, u32 posNum);
+  static Sphere Create_AABB     (const Vec* pPos, u32 posNum);
+  static Sphere Create_Iterative  (const Vec* pPos, u32 posNum);
+  static Sphere Create_Welz     (const Vec* pPos, u32 posNum);
 
-	f32				Volume				() const	{	return 4.0f * PI * radius * radius * radius / 3.0f;	}
-	f32				SurfaceArea			() const	{	return 4.0f * PI * radius * radius;					}
+  f32       Volume        () const  { return 4.0f * PI * radius * radius * radius / 3.0f; }
+  f32       SurfaceArea     () const  { return 4.0f * PI * radius * radius;         }
 };
 
 // ---------------------------------------------------------------------------
 
 struct AABB
 {
-	Vec			center;	// center of the AABB
-	Vec			extend;	// the AABB extend (half of its size)
+  Vec     center; // center of the AABB
+  Vec     extend; // the AABB extend (half of its size)
 
-				AABB	(const Vec& c, const Vec& e)
-				{
-					center = c;
-					extend = e;
-				}
+        AABB  (const Vec& c, const Vec& e)
+        {
+          center = c;
+          extend = e;
+        }
 
-				AABB	(const Vec& c, f32 w, f32 h, f32 d)
-				{
-					center = c;
-					extend = Vec(w, h, d);
-				}
+        AABB  (const Vec& c, f32 w, f32 h, f32 d)
+        {
+          center = c;
+          extend = Vec(w, h, d);
+        }
 
-				AABB	(const Vec* pPos, u32 posNum)
-				{
-					*this = Create(pPos, posNum);
-				}
+        AABB  (const Vec* pPos, u32 posNum)
+        {
+          *this = Create(pPos, posNum);
+        }
 
-	static AABB	Create		(const Vec* pPos, u32 posNum);
+  static AABB Create    (const Vec* pPos, u32 posNum);
 
-	f32			Volume		() const	{	return 4.0f * extend.x * extend.y * extend.z;										}
-	f32			SurfaceArea	() const	{	return 2.0f * (extend.x * extend.y + extend.y * extend.z + extend.z * extend.x);	}
+  f32     Volume    () const  { return 4.0f * extend.x * extend.y * extend.z;                   }
+  f32     SurfaceArea () const  { return 2.0f * (extend.x * extend.y + extend.y * extend.z + extend.z * extend.x);  }
 };
 
 
@@ -260,23 +260,23 @@ struct AABB
 
 struct OBB
 {
-	Vec center;		// center of the AABB
-	Vec extend[3];	// the AABB extend (half of its size)
+  Vec center;   // center of the AABB
+  Vec extend[3];  // the AABB extend (half of its size)
 #if 0
-		OBB	(const Vec& c, const Vec& e0, const Vec& e1, const Vec& e2)
-		{
-			center    = c;
-			extend[0] = e0;
-			extend[1] = e1;
-		}
+    OBB (const Vec& c, const Vec& e0, const Vec& e1, const Vec& e2)
+    {
+      center    = c;
+      extend[0] = e0;
+      extend[1] = e1;
+    }
 
-		OBB	(const Vec& c, f32 w, f32 h, f32 d)
-		{
-			center = c;
-			extend = Vec(w, h, d);
-		}
+    OBB (const Vec& c, f32 w, f32 h, f32 d)
+    {
+      center = c;
+      extend = Vec(w, h, d);
+    }
 
-		OBB	(const Vec* pP);
+    OBB (const Vec* pP);
 #endif
 };
 
@@ -291,14 +291,14 @@ Vec Project(const Vec& p, const Plane& plane);
 // calculate the distance from one entity to another
 
 // from dist from a given point to another entity
-f32 CalcDist(const Vec& p0,	const Vec&		p1);
-f32 CalcDist(const Vec& p,	const Line&		line);
-f32 CalcDist(const Vec& p,	const Segment&	segment);
-f32 CalcDist(const Vec& p,	const Ray&		ray);
-f32 CalcDist(const Vec& p,	const Plane&	plane);
-f32 CalcDist(const Vec& p,	const Triangle&	triangle);
-f32 CalcDist(const Vec& p,	const Sphere&	sphere);
-f32 CalcDist(const Vec& p,	const AABB&		aabb);
+f32 CalcDist(const Vec& p0, const Vec&    p1);
+f32 CalcDist(const Vec& p,  const Line&   line);
+f32 CalcDist(const Vec& p,  const Segment&  segment);
+f32 CalcDist(const Vec& p,  const Ray&    ray);
+f32 CalcDist(const Vec& p,  const Plane&  plane);
+f32 CalcDist(const Vec& p,  const Triangle& triangle);
+f32 CalcDist(const Vec& p,  const Sphere& sphere);
+f32 CalcDist(const Vec& p,  const AABB&   aabb);
 
 // from dist from a given line to another entity
 f32 CalcDist(const Line& line0, const Line&   line1);
@@ -315,13 +315,13 @@ f32 CalcDist(const Segment& seg0, const Segment&  seg1);
 bool IsContained2D(const Vec& p, const Triangle& tri);
 
 // check if given point is contained within another entity
-bool IsContained(const Vec& p, const Line&		line);
-bool IsContained(const Vec& p, const Segment&	segment);
-bool IsContained(const Vec& p, const Ray&		ray);
-bool IsContained(const Vec& p, const Plane&		plane);
-bool IsContained(const Vec& p, const Triangle&	tri);
-bool IsContained(const Vec& p, const Sphere&	sphere);
-bool IsContained(const Vec& p, const AABB&		aabb);
+bool IsContained(const Vec& p, const Line&    line);
+bool IsContained(const Vec& p, const Segment& segment);
+bool IsContained(const Vec& p, const Ray&   ray);
+bool IsContained(const Vec& p, const Plane&   plane);
+bool IsContained(const Vec& p, const Triangle&  tri);
+bool IsContained(const Vec& p, const Sphere&  sphere);
+bool IsContained(const Vec& p, const AABB&    aabb);
 
 // ---------------------------------------------------------------------------
 // calculate intersection between one entity with another
@@ -373,9 +373,9 @@ bool IsPerpendicular(const Line&  line,   const Plane& plane);
 bool IsPerpendicular(const Plane& plane0, const Plane& plane1);
 
 // check if 2 entities are coplanar
-bool IsCoplanar	(const Line&  line0,  const Line&  line1);
-bool IsCoplanar	(const Line&  line,   const Plane& plane);
-bool IsCoplanar	(const Plane& plane0, const Plane& plane1);
+bool IsCoplanar (const Line&  line0,  const Line&  line1);
+bool IsCoplanar (const Line&  line,   const Plane& plane);
+bool IsCoplanar (const Plane& plane0, const Plane& plane1);
 
 // ---------------------------------------------------------------------------
 // misc functions
